@@ -1,5 +1,6 @@
 package ro.andreu.recipes.techs.graph;
 
+import ro.andreu.recipes.techs.graph.exception.MalformedException;
 import ro.andreu.recipes.techs.graph.exception.NoSuchNodeException;
 import ro.andreu.recipes.techs.graph.exception.NoSuchRouteException;
 import ro.andreu.recipes.techs.graph.Edge;
@@ -10,13 +11,7 @@ import java.util.List;
 
 public interface Graph<K, N extends Node, E extends Edge> {
 
-    public Number distanceAlongRoute(Route route) throws NoSuchRouteException;
-
-    public int differentRoutesBetweenNodes(K from, K to) throws NoSuchNodeException, NoSuchRouteException;
-
-    public Route shortestRouteBetweenNodes(K from, K to) throws NoSuchNodeException, NoSuchRouteException;
-
-    public List<E> getNodeList();
+    public List<N> getNodeList();
 
     public List<E> getEdgeList();
 
@@ -24,5 +19,11 @@ public interface Graph<K, N extends Node, E extends Edge> {
 
     public void addNode(N node);
 
-    public void addEdge(E edge);
+    public void addEdge(E edge) throws MalformedException;
+
+    public Number distanceAlongRoute(Route route) throws NoSuchRouteException;
+
+    public int differentRoutesBetweenNodes(K from, K to) throws NoSuchNodeException, NoSuchRouteException;
+
+    public Route shortestRouteBetweenNodes(K from, K to) throws NoSuchNodeException, NoSuchRouteException;
 }

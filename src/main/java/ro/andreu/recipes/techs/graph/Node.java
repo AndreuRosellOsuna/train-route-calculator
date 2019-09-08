@@ -1,5 +1,6 @@
 package ro.andreu.recipes.techs.graph;
 
+import java.util.Objects;
 import java.util.Set;
 
 public interface Node {

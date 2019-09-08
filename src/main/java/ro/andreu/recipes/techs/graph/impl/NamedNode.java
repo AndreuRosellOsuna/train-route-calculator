@@ -28,10 +28,12 @@ public class NamedNode implements Node {
         this.name = name;
     }
 
-    public void addEdge(NamedNodeEdge edge) {
-        edge.setFrom(this);
-        edges.add(edge);
-        nodes.add(edge.to());
+    void addEdge(NamedNodeEdge edge) {
+        if(!nodes.contains(edge.to())) {
+            edge.setFrom(this);
+            edges.add(edge);
+            nodes.add(edge.to());
+        }
     }
 
     @Override
@@ -52,5 +54,10 @@ public class NamedNode implements Node {
             return !StringUtils.isEmpty(nodeName) && !StringUtils.isEmpty(name) && nodeName.equals(name);
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

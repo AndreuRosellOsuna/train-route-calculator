@@ -37,4 +37,16 @@ public class NamedNodeEdge implements Edge {
     public Number distance() {
         return distance;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof NamedNodeEdge) {
+            NamedNodeEdge edge = (NamedNodeEdge) obj;
+
+            if(edge.from().equals(from()) && edge.to().equals(to()) && edge.distance().equals(distance())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
