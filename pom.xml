@@ -35,9 +35,18 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>4.6</version>
+    </dependency>
   </dependencies>
-
   <build>
+<!--    <testResources>-->
+<!--      <testResource>-->
+<!--        <directory>${project.basedir}/src/test/resources</directory>-->
+<!--      </testResource>-->
+<!--    </testResources>-->
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->

@@ -1,5 +1,6 @@
 package ro.andreu.recipes.techs.graph.impl;
 
+import jdk.nashorn.internal.runtime.PropertyMap;
 import org.junit.Test;
 import ro.andreu.recipes.techs.graph.Edge;
 import ro.andreu.recipes.techs.graph.Graph;
@@ -404,5 +405,8 @@ public class NamedNodeGraphTest {
 
         Number distance = graph.distanceAlongRoute(shortestRoute);
         assertEquals(3, distance.intValue());
+
+        int differentRoutes = graph.differentRoutesBetweenNodes("A", "D");
+        assertEquals(3, differentRoutes);
     }
 }

@@ -32,10 +32,6 @@ public class NamedNodeGraph implements Graph<String, NamedNode, NamedNodeEdge> {
         return allRoutes.size();
     }
 
-    public int sortMethod(Route route) {
-        return distanceAlongRoute(route).intValue();
-    }
-
     @Override
     public Route shortestRouteBetweenNodes(String from, String to) throws NoSuchNodeException, NoSuchRouteException {
         Set<Route> allRoutes = this.getAllRoutes(from, to);
@@ -124,9 +120,14 @@ public class NamedNodeGraph implements Graph<String, NamedNode, NamedNodeEdge> {
 
         NamedNode from = edge.from();
         addNode(from);
-        from.addEdge(edge);
+        NamedNode fromNode = nodes.get(from.getName());
 
         NamedNode to = edge.to();
         addNode(to);
+        NamedNode toNode = nodes.get(to.getName());
+
+        edge.setFrom(fromNode);
+        edge.setTo(toNode);
+        fromNode.addEdge(edge);
     }
 }

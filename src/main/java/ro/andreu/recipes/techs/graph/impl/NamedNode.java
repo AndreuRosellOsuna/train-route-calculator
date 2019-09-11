@@ -20,6 +20,12 @@ public class NamedNode implements Node {
         nodes = new HashSet<>();
     }
 
+    public NamedNode(String name) {
+        edges = new HashSet<>();
+        nodes = new HashSet<>();
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -28,7 +34,7 @@ public class NamedNode implements Node {
         this.name = name;
     }
 
-    void addEdge(NamedNodeEdge edge) {
+    public void addEdge(NamedNodeEdge edge) {
         if(!nodes.contains(edge.to())) {
             edge.setFrom(this);
             edges.add(edge);
