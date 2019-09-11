@@ -11,16 +11,4 @@ public interface Route {
     public List<Edge> edges();
 
     public void addNode(Node node) throws NoSuchRouteException;
-
-//    public void addEdge(Edge edge);
-
-    public int size();
-
-    public Node actual();
-
-    public boolean isNext();
-
-    public Node next();
-
-    public Node first();
 }

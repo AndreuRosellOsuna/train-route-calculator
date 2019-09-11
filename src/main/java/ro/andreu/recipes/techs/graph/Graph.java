@@ -13,8 +13,6 @@ public interface Graph<K, N extends Node, E extends Edge> {
 
     public List<N> getNodeList();
 
-    public List<E> getEdgeList();
-
     public Node getNode(K key) throws NoSuchNodeException;
 
     public void addNode(N node);
@@ -26,4 +24,6 @@ public interface Graph<K, N extends Node, E extends Edge> {
     public int differentRoutesBetweenNodes(K from, K to) throws NoSuchNodeException, NoSuchRouteException;
 
     public Route shortestRouteBetweenNodes(K from, K to) throws NoSuchNodeException, NoSuchRouteException;
+
+    public Route validateRoute(K ... nodes) throws NoSuchNodeException, NoSuchRouteException;
 }

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertNotNull;
 
 public class NamedNodeGraphTest {
 
@@ -408,5 +409,73 @@ public class NamedNodeGraphTest {
 
         int differentRoutes = graph.differentRoutesBetweenNodes("A", "D");
         assertEquals(3, differentRoutes);
+    }
+
+
+    @Test
+    public void validateRouteOKTest() throws MalformedException, NoSuchNodeException, NoSuchRouteException {
+        NamedNode nodeA = new NamedNode();
+        nodeA.setName("A");
+
+        NamedNode nodeB = new NamedNode();
+        nodeB.setName("B");
+
+        NamedNode nodeC = new NamedNode();
+        nodeC.setName("C");
+
+        NamedNodeEdge edgeAB = new NamedNodeEdge();
+        edgeAB.setFrom(nodeA);
+        edgeAB.setTo(nodeB);
+        edgeAB.setDistance(new Integer(1));
+
+        nodeA.addEdge(edgeAB);
+
+        NamedNodeEdge edgeBC = new NamedNodeEdge();
+        edgeBC.setFrom(nodeB);
+        edgeBC.setTo(nodeC);
+        edgeBC.setDistance(new Integer(2));
+
+        nodeB.addEdge(edgeBC);
+
+        NamedNodeGraph graph = new NamedNodeGraph();
+        graph.addEdge(edgeAB);
+        graph.addEdge(edgeBC);
+
+        Route route = graph.validateRoute("A", "B", "C");
+        assertNotNull(route);
+
+        assertThat(route.nodes()).extracting("name").containsExactly("A", "B", "C");
+    }
+
+    @Test(expected = NoSuchRouteException.class)
+    public void validateRouteKOTest() throws MalformedException, NoSuchNodeException, NoSuchRouteException {
+        NamedNode nodeA = new NamedNode();
+        nodeA.setName("A");
+
+        NamedNode nodeB = new NamedNode();
+        nodeB.setName("B");
+
+        NamedNode nodeC = new NamedNode();
+        nodeC.setName("C");
+
+        NamedNodeEdge edgeAB = new NamedNodeEdge();
+        edgeAB.setFrom(nodeA);
+        edgeAB.setTo(nodeB);
+        edgeAB.setDistance(new Integer(1));
+
+        nodeA.addEdge(edgeAB);
+
+        NamedNodeEdge edgeBC = new NamedNodeEdge();
+        edgeBC.setFrom(nodeB);
+        edgeBC.setTo(nodeC);
+        edgeBC.setDistance(new Integer(2));
+
+        nodeB.addEdge(edgeBC);
+
+        NamedNodeGraph graph = new NamedNodeGraph();
+        graph.addEdge(edgeAB);
+        graph.addEdge(edgeBC);
+
+        Route route = graph.validateRoute("A", "C", "B");
     }
 }

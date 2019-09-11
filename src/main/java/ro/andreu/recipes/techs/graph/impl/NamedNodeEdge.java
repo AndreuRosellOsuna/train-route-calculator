@@ -1,7 +1,6 @@
 package ro.andreu.recipes.techs.graph.impl;
 
 import ro.andreu.recipes.techs.graph.Edge;
-import ro.andreu.recipes.techs.graph.Node;
 
 public class NamedNodeEdge implements Edge {
 

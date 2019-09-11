@@ -7,7 +7,7 @@ public class Launcher
 {
     public static void main( String[] args )
     {
-        SpringApplication app = new SpringApplication(CommandLineRouteCalculator.class);
+        SpringApplication app = new SpringApplication(RouteCalculator.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.setLogStartupInfo(false);
         app.run(args);

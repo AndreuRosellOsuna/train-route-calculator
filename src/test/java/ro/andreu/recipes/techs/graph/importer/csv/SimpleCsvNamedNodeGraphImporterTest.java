@@ -4,6 +4,7 @@ import org.junit.Test;
 import ro.andreu.recipes.techs.graph.Node;
 import ro.andreu.recipes.techs.graph.impl.NamedNode;
 import ro.andreu.recipes.techs.graph.impl.NamedNodeGraph;
+import ro.andreu.recipes.techs.graph.importer.GraphImporterException;
 
 import java.io.FileNotFoundException;
 import java.util.Set;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 public class SimpleCsvNamedNodeGraphImporterTest {
 
     @Test
-    public void importTest() throws FileNotFoundException {
+    public void importTest() throws FileNotFoundException, GraphImporterException {
         SimpleCsvNamedNodeGraphImporter importer = new SimpleCsvNamedNodeGraphImporter();
         SimpleCsvNamedNodeGraphImporterResource railroadFile = new SimpleCsvNamedNodeGraphImporterResource("D:\\java_projects\\Train Route Calculator\\src\\test\\resources\\railroad_file_test.csv");
         NamedNodeGraph graph = importer.importGraph(railroadFile);

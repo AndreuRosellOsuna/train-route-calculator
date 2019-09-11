@@ -1,13 +1,11 @@
 package ro.andreu.recipes.techs.graph.impl;
 
-import org.springframework.util.StringUtils;
 import ro.andreu.recipes.techs.graph.Edge;
 import ro.andreu.recipes.techs.graph.Node;
 import ro.andreu.recipes.techs.graph.Route;
 import ro.andreu.recipes.techs.graph.exception.NoSuchRouteException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,11 +38,11 @@ public class NamedNodeRoute implements Route {
     public void addNode(Node node) throws NoSuchRouteException {
         if(!nodes.isEmpty()) {
 
-            NamedNodeEdge newEdge = new NamedNodeEdge();
-//            Set<Node> fromNodeSet = node.edges().stream().map(Edge::to).filter(toNode -> toNode.equals(node)).collect(Collectors.toSet());
+            // Verify that we can go to this new node from last node throw one of its edges
             Set<Edge> edgeFromLastNodeToNewNodeSet = nodes.get(nodes.size()-1).edges().stream().filter(edge -> edge.to().equals(node)).collect(Collectors.toSet());
             if(edgeFromLastNodeToNewNodeSet.isEmpty()) {
-                throw new NoSuchRouteException();
+                String desc = "The last node " + nodes.get(nodes.size()-1).toString() +" of this route does not have an edge to the new added node " + node.toString();
+                throw new NoSuchRouteException(desc);
             }
 
             Edge edge = edgeFromLastNodeToNewNodeSet.iterator().next();
@@ -52,36 +50,6 @@ public class NamedNodeRoute implements Route {
         }
 
         nodes.add(node);
-    }
-
-//    @Override
-    private void addEdge(Edge edge) {
-        edges.add(edge);
-    }
-
-    @Override
-    public int size() {
-        return nodes().size();
-    }
-
-    @Override
-    public Node actual() {
-        return null;
-    }
-
-    @Override
-    public boolean isNext() {
-        return false;
-    }
-
-    @Override
-    public Node next() {
-        return null;
-    }
-
-    @Override
-    public Node first() {
-        return null;
     }
 
     @Override

@@ -42,19 +42,36 @@ public class NamedNodeGraph implements Graph<String, NamedNode, NamedNodeEdge> {
         return sortedRoutes.get(0);
     }
 
+    @Override
+    public Route validateRoute(String... nodes) throws NoSuchNodeException, NoSuchRouteException {
+        NamedNodeRoute route = new NamedNodeRoute();
+
+        for(String nodeName : nodes) {
+            Node node = getNode(nodeName);
+            if(node != null) {
+                route.addNode(node);
+            } else {
+                throw new NoSuchNodeException("Node " + nodeName + " is not in the graph");
+            }
+        }
+
+        return route;
+    }
+
+
     public Set<Route> getAllRoutes(String from, String to) throws NoSuchNodeException, NoSuchRouteException {
         Node fromNode = nodes.get(from);
         if(Objects.isNull(fromNode)) {
-            throw new NoSuchNodeException();
+            throw new NoSuchNodeException("Node " + from + " is not in the graph");
         }
 
         Node toNode = nodes.get(to);
         if(Objects.isNull(toNode)) {
-            throw new NoSuchNodeException();
+            throw new NoSuchNodeException("Node " + to + " is not in the graph");
         }
 
         if(fromNode.equals(toNode)) {
-            throw new NoSuchRouteException();
+            throw new NoSuchRouteException("Nodes " + from + " and " + to + " are equal");
         }
 
         Set<Route> allPossibleRoutes = new HashSet<>();
@@ -63,7 +80,7 @@ public class NamedNodeGraph implements Graph<String, NamedNode, NamedNodeEdge> {
         findNode(fromNode, toNode, route, allPossibleRoutes);
 
         if(allPossibleRoutes.size() == 0)
-            throw new NoSuchRouteException();
+            throw new NoSuchRouteException("No such route for " + from + " and " + to + " nodes");
 
         return allPossibleRoutes;
     }
@@ -71,15 +88,12 @@ public class NamedNodeGraph implements Graph<String, NamedNode, NamedNodeEdge> {
     private void findNode(Node fromNode, Node toNode, Route actualRoute, Set<Route> allPossibleRoutes) throws NoSuchRouteException {
         actualRoute.addNode(fromNode);
 
-//        if(fromNode.neighbours().contains(toNode)) {
         if(toNode.equals(fromNode)) {
             allPossibleRoutes.add(actualRoute);
         } else {
-
             for(Edge edge : fromNode.edges()) {
                 if(!edge.to().equals(fromNode) && !actualRoute.nodes().contains(edge.to())) {
                     Route newRoute = new NamedNodeRoute(actualRoute.nodes(), actualRoute.edges());
-//                    newRoute.addEdge(edge);
                     Node toNodeFromEdge = edge.to();
                     findNode(toNodeFromEdge, toNode, newRoute, allPossibleRoutes);
                 }
@@ -90,11 +104,6 @@ public class NamedNodeGraph implements Graph<String, NamedNode, NamedNodeEdge> {
     @Override
     public List<NamedNode> getNodeList() {
         return new ArrayList<NamedNode>(nodes.values());
-    }
-
-    @Override
-    public List<NamedNodeEdge> getEdgeList() {
-        return null;
     }
 
     @Override
@@ -115,7 +124,7 @@ public class NamedNodeGraph implements Graph<String, NamedNode, NamedNodeEdge> {
     @Override
     public void addEdge(NamedNodeEdge edge) throws MalformedException {
         if(Objects.isNull(edge.from()) || Objects.isNull(edge.to()) || Objects.isNull(edge.distance())) {
-            throw new MalformedException();
+            throw new MalformedException("Edge not completed : from " + edge.from() + " to " + edge.to() + " distance " + edge.distance());
         }
 
         NamedNode from = edge.from();
